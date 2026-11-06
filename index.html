@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимированный сайт</title>
+    <style>
+        /* CSS Reset и базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Шрифты и основные стили */
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-bottom: 30px;
+            animation: slideUp 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 20px;
+            margin: 0 auto;
+        }
+
+        /* Кнопка */
+        .btn {
+            background-color: white;
+            color: #333;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: pulse 2s infinite;
+            margin-top: 30px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
+        }
+
+        /* Карточки информации */
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeZoom 1s forwards;
+            animation-delay: calc(0.2s * var(--i));
+            animation-duration: 0.8s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+
+        .card p {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Анимация для карточек */
+        @keyframes fadeZoom {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(50px);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.05) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Анимация для заголовка */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Анимация для скролла */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Анимация для кнопки */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Анимация для линий */
+        .line {
+            position: absolute;
+            width: 5px;
+            height: 20px;
+            background-color: white;
+            animation: moveLine 3s linear infinite;
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        .line1 { animation-delay: 0s; }
+        .line2 { animation-delay: 0.5s; }
+        .line3 { animation-delay: 1s; }
+        .line4 { animation-delay: 1.5s; }
+
+        @keyframes moveLine {
+            0% { top: 0; }
+            100% { top: 100vh; }
+        }
+
+        /* Анимация для подмигивающих глаз */
+        .eye {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: blink 3s linear infinite;
+        }
+
+        .eye::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: blink 3s linear infinite;
+        }
+
+        @keyframes blink {
+            0%, 95%, 97% { opacity: 1; }
+            96%, 100% { opacity: 0; }
+        }
+
+        /* Звездная анимация в фоне */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Форма для обратной связи */
+        .contact-form {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+        }
+
+        .contact-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Анимация для формы */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Анимация для кнопки отправки */
+        .submit-btn {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            color: #333;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="eye" id="eye"></div>
+
+    <div class="container">
+        <h1>Добро пожаловать на мой сайт</h1>
+        <p>Это красивый сайт с анимациями, созданный с помощью HTML, CSS и JavaScript</p>
+
+        <div class="card">
+            <h3>О мэйне</h3>
+            <p>Этот раздел будет содержать информацию о главном разделе или о нас. Здесь вы можете почерпнуть интересные факты и узнать о нашей миссии. Анимация появится при загрузке страницы.</p>
+        </div>
+
+        <div class="card">
+            <h3>Услуги</h3>
+            <p>В этом разделе будут описаны предоставляемые услуги. Здесь вы узнаете, как мы можем помочь вам с вашими задачами. Карточки появятся с задержкой.</p>
+        </div>
+
+        <div class="card">
+            <h3>Контакты</h3>
+            <p>Свяжитесь с нами, если у вас есть вопросы или предложения. Карточки появятся с задержкой.</p>
+        </div>
+
+        <button class="btn">Наша кнопка</button>
+
+        <div class="contact-form">
+            <form>
+                <label for="name">Имя</label>
+                <input type="text" id="name" placeholder="Введите ваше имя">
+
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Введите ваш email">
+
+                <label for="message">Сообщение</label>
+                <textarea id="message" placeholder="Введите ваше сообщение"></textarea>
+
+                <button type="submit" class="submit-btn">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Создание звезд в фоне
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starsCount = 100;
+
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                // Случайные размеры
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+
+                // Случайная позиция
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+
+                // Случайная прозрачность
+                star.style.opacity = Math.random();
+
+                // Случайная анимация
+                const duration = Math.random() * 5 + 2;
+                const delay = Math.random() * 5;
+                star.style.animationDuration = duration + 's';
+                star.style.animationDelay = delay + 's';
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Анимация глаза
+        function animateEye() {
+            const eye = document.getElementById('eye');
+            const eyePupil = eye.querySelector('::after');
+            const x = Math.random() * 10;
+            const y = Math.random() * 10;
+            eye.style.transform = `translate(${x}rem, ${y}rem)`;
+            setTimeout(() => {
+                animateEye();
+            }, 100);
+        }
+
+        // Анимация для кнопки отправки формы
+        function animateButton() {
+            const btn = document.querySelector('.submit-btn');
+            btn.style.transform = 'scale(0.95)';
+            btn.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.5)';
+
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+                btn.style.boxShadow = 'none';
+            }, 300);
+        }
+
+        // Плавный скролл
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Инициализация
+        window.onload = function() {
+            createStars();
+            animateEye();
+        }
+    </script>
+</body>
+</html>
